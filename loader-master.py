@@ -192,7 +192,6 @@ def extract_stats_from_profile(url: str, delay: float = 0.5):
         return {}
 
     geo_connection = extract_location_from_des(soup)
-
     stats = {}
     for field, labels in FIELD_LABELS.items():
         value = None
@@ -215,16 +214,16 @@ def extract_location_from_des(soup):
     des_div = soup.find("div", {"class": "section-description"})
     loc_div = des_div.find_all("a", href=True)
     for href in loc_div:
-        href_splitted = href.split("/")
-        if href_splitted[1] == 'geo':
-            geo_id = href_splitted[2].strip()
+        href_splitted = href['href'].split("/")
+        if href_splitted[2] == 'geo':
+            geo_id = href_splitted[3].strip()
             return geo_id
         else:
             continue
     return None
 
 def get_state_from_slug(slug):
-    state_abbr = slug.split("-").strip()[-1]
+    state_abbr = slug.split("-")[-1].strip()
     state_name = STATES[state_abbr.upper()]
     return state_name
 
@@ -290,7 +289,7 @@ def build_dataset(limit_per_type=None):
                     "type": info["type"],
                     "slug": info["slug"],
                     "url": info["url"],
-                    "county_id": info["county_id"],
+                    "county_id": stats.get("county_id"),
                     "tuition": stats.get("tuition"),
                     "enrolled": stats.get("enrolled"),
                     "grad_rate": stats.get("grad_rate"),
