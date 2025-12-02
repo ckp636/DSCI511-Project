@@ -97,7 +97,8 @@ STATES = {
     "WA": "Washington",
     "WV": "West Virginia",
     "WI": "Wisconsin",
-    "WY": "Wyoming"
+    "WY": "Wyoming",
+    "PR": "Puerto Rico"
 }
 
 def construct_url(base: str, segments):
