@@ -2,6 +2,7 @@ import json
 import re
 import time
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
 
 BASE = "https://datausa.io"
@@ -239,6 +240,10 @@ def build_dataset(limit_per_type=None):
     dataset = {}
     counts_by_type = {}
 
+    state_df = pd.DataFrame()
+    county_df = pd.DataFrame()
+    university_df = pd.DataFrame()
+
     for geo_id, info in index.items():
         t = info["type"]
         counts_by_type.setdefault(t, 0)
@@ -268,6 +273,7 @@ def build_dataset(limit_per_type=None):
                     "poverty_rate": stats.get("poverty_rate"),
                     "property_value": stats.get("property_value"),
                 }
+                state_df = pd.concat([state_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
             case "County":
                 dataset[geo_id] = {
                     "id": geo_id,
@@ -282,6 +288,7 @@ def build_dataset(limit_per_type=None):
                     "poverty_rate": stats.get("poverty_rate"),
                     "property_value": stats.get("property_value"),
                 }
+                county_df = pd.concat([county_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
             case "University":
                 dataset[geo_id] = {
                     "id": geo_id,
@@ -294,6 +301,7 @@ def build_dataset(limit_per_type=None):
                     "enrolled": stats.get("enrolled"),
                     "grad_rate": stats.get("grad_rate"),
                 }
+                university_df = pd.concat([university_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
             case _:
                 dataset[geo_id] = {
                     "id": geo_id,
@@ -303,18 +311,25 @@ def build_dataset(limit_per_type=None):
                     "url": info["url"],
                 }
 
+    frame_list = [state_df, county_df, university_df]
     print("[INFO] Scraping complete. Counts by type:", counts_by_type)
-    return dataset
+    return dataset, frame_list
 
 def main():
     # For a small test run, set limit_per_type to a small number (e.g., 3).
     # For the full scrape, change to None (may take a long time).
-    dataset = build_dataset(limit_per_type=5)
+    dataset, frames = build_dataset(limit_per_type=5)
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(dataset, f, indent=4, ensure_ascii=False)
 
     print("[INFO] Saved data-master.json and data.json")
+
+    with pd.ExcelWriter("data.xlsx") as writer:
+        for i, df in enumerate(frames, start=1):
+            df.to_excel(writer, sheet_name=f"Sheet{i}", index = False)
+    
+    print("[INFO] Saved data.xlsx")
 
 if __name__ == "__main__":
     main()

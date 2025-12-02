@@ -11,54 +11,6 @@
         "poverty_rate": "15.6%",
         "property_value": "$195,100"
     },
-    "04000US02": {
-        "id": "04000US02",
-        "name": "Alaska",
-        "type": "State",
-        "slug": "alaska",
-        "url": "https://datausa.io/profile/geo/alaska",
-        "population": "733,971",
-        "median_age": "35.6",
-        "income": "$89,336",
-        "poverty_rate": "10.2%",
-        "property_value": "$333,300"
-    },
-    "04000US60": {
-        "id": "04000US60",
-        "name": "American Samoa",
-        "type": "State",
-        "slug": "american-samoa",
-        "url": "https://datausa.io/profile/geo/american-samoa",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
-    },
-    "04000US04": {
-        "id": "04000US04",
-        "name": "Arizona",
-        "type": "State",
-        "slug": "arizona",
-        "url": "https://datausa.io/profile/geo/arizona",
-        "population": "7.27M",
-        "median_age": "38.8",
-        "income": "$76,872",
-        "poverty_rate": "12.8%",
-        "property_value": "$358,900"
-    },
-    "04000US05": {
-        "id": "04000US05",
-        "name": "Arkansas",
-        "type": "State",
-        "slug": "arkansas",
-        "url": "https://datausa.io/profile/geo/arkansas",
-        "population": "3.03M",
-        "median_age": "38.4",
-        "income": "$58,773",
-        "poverty_rate": "16%",
-        "property_value": "$175,300"
-    },
     "05000US45001": {
         "id": "05000US45001",
         "name": "Abbeville County Sc",
@@ -72,58 +24,6 @@
         "poverty_rate": "14.1%",
         "property_value": "$147,200"
     },
-    "05000US22001": {
-        "id": "05000US22001",
-        "name": "Acadia Parish La",
-        "type": "County",
-        "slug": "acadia-parish-la",
-        "url": "https://datausa.io/profile/geo/acadia-parish-la",
-        "state_name": "Louisiana",
-        "population": "57,218",
-        "median_age": "37",
-        "income": "$45,266",
-        "poverty_rate": "24.4%",
-        "property_value": "$146,900"
-    },
-    "05000US51001": {
-        "id": "05000US51001",
-        "name": "Accomack County Va",
-        "type": "County",
-        "slug": "accomack-county-va",
-        "url": "https://datausa.io/profile/geo/accomack-county-va",
-        "state_name": "Virginia",
-        "population": "33,326",
-        "median_age": "47.5",
-        "income": "$57,500",
-        "poverty_rate": "14.9%",
-        "property_value": "$193,100"
-    },
-    "05000US16001": {
-        "id": "05000US16001",
-        "name": "Ada County Id",
-        "type": "County",
-        "slug": "ada-county-id",
-        "url": "https://datausa.io/profile/geo/ada-county-id",
-        "state_name": "Idaho",
-        "population": "508,052",
-        "median_age": "38.3",
-        "income": "$88,907",
-        "poverty_rate": "8.53%",
-        "property_value": "$476,000"
-    },
-    "05000US19001": {
-        "id": "05000US19001",
-        "name": "Adair County Ia",
-        "type": "County",
-        "slug": "adair-county-ia",
-        "url": "https://datausa.io/profile/geo/adair-county-ia",
-        "state_name": "Iowa",
-        "population": "7,471",
-        "median_age": "42.6",
-        "income": "$66,176",
-        "poverty_rate": "10.3%",
-        "property_value": "$140,600"
-    },
     "493868": {
         "id": "493868",
         "name": "A Better U Beauty Barber Academy",
@@ -133,50 +33,6 @@
         "county_id": "05000US35001",
         "tuition": null,
         "enrolled": "52",
-        "grad_rate": null
-    },
-    "177834": {
-        "id": "177834",
-        "name": "A T Still University Of Health Sciences",
-        "type": "University",
-        "slug": "a-t-still-university-of-health-sciences",
-        "url": "https://datausa.io/profile/university/a-t-still-university-of-health-sciences",
-        "county_id": "05000US29001",
-        "tuition": null,
-        "enrolled": "3,629",
-        "grad_rate": null
-    },
-    "180203": {
-        "id": "180203",
-        "name": "Aaniiih Nakoda College",
-        "type": "University",
-        "slug": "aaniiih-nakoda-college",
-        "url": "https://datausa.io/profile/university/aaniiih-nakoda-college",
-        "county_id": "05000US30005",
-        "tuition": null,
-        "enrolled": "133",
-        "grad_rate": "32.4%"
-    },
-    "491464": {
-        "id": "491464",
-        "name": "Abc Adult School",
-        "type": "University",
-        "slug": "abc-adult-school",
-        "url": "https://datausa.io/profile/university/abc-adult-school",
-        "county_id": "05000US06037",
-        "tuition": null,
-        "enrolled": "185",
-        "grad_rate": null
-    },
-    "493105": {
-        "id": "493105",
-        "name": "Abc Adult School Cabrillo Lane",
-        "type": "University",
-        "slug": "abc-adult-school-cabrillo-lane",
-        "url": "https://datausa.io/profile/university/abc-adult-school-cabrillo-lane",
-        "county_id": null,
-        "tuition": null,
-        "enrolled": null,
         "grad_rate": null
     }
 }
