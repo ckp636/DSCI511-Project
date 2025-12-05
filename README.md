@@ -14,6 +14,12 @@
 [INFO] Fetching classification: University/University -> https://datausa.io/about/classifications/University/University
   Found 7770 results
 
+[Challenges]
+- DataUS.io pages contain many React elements which can prevent scrapping using only BeautifulSoup. Selenium can be used to potentially overcome this.
+- There are missing data from lesser known locations and universities.
+- The dataset do not contain explicit linking information (eg. city belongs to which county and state, university is in which state ). The current temporary fix is to use an external dicationary containing state names and abbreviations for linking using slugs.
+- Outdated data, mostly from 2022 and 2023.
+
 
 
 
