@@ -65,6 +65,7 @@
         "type": "County",
         "slug": "abbeville-county-sc",
         "url": "https://datausa.io/profile/geo/abbeville-county-sc",
+        "state_name": "South Carolina",
         "population": "24,352",
         "median_age": "44.3",
         "income": "$52,112",
@@ -77,6 +78,7 @@
         "type": "County",
         "slug": "acadia-parish-la",
         "url": "https://datausa.io/profile/geo/acadia-parish-la",
+        "state_name": "Louisiana",
         "population": "57,218",
         "median_age": "37",
         "income": "$45,266",
@@ -89,6 +91,7 @@
         "type": "County",
         "slug": "accomack-county-va",
         "url": "https://datausa.io/profile/geo/accomack-county-va",
+        "state_name": "Virginia",
         "population": "33,326",
         "median_age": "47.5",
         "income": "$57,500",
@@ -101,6 +104,7 @@
         "type": "County",
         "slug": "ada-county-id",
         "url": "https://datausa.io/profile/geo/ada-county-id",
+        "state_name": "Idaho",
         "population": "508,052",
         "median_age": "38.3",
         "income": "$88,907",
@@ -113,6 +117,7 @@
         "type": "County",
         "slug": "adair-county-ia",
         "url": "https://datausa.io/profile/geo/adair-county-ia",
+        "state_name": "Iowa",
         "population": "7,471",
         "median_age": "42.6",
         "income": "$66,176",
@@ -125,11 +130,10 @@
         "type": "University",
         "slug": "a-better-u-beauty-barber-academy",
         "url": "https://datausa.io/profile/university/a-better-u-beauty-barber-academy",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
+        "county_id": "05000US35001",
+        "tuition": null,
+        "enrolled": "52",
+        "grad_rate": null
     },
     "177834": {
         "id": "177834",
@@ -137,11 +141,10 @@
         "type": "University",
         "slug": "a-t-still-university-of-health-sciences",
         "url": "https://datausa.io/profile/university/a-t-still-university-of-health-sciences",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
+        "county_id": "05000US29001",
+        "tuition": null,
+        "enrolled": "3,629",
+        "grad_rate": null
     },
     "180203": {
         "id": "180203",
@@ -149,11 +152,10 @@
         "type": "University",
         "slug": "aaniiih-nakoda-college",
         "url": "https://datausa.io/profile/university/aaniiih-nakoda-college",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
+        "county_id": "05000US30005",
+        "tuition": null,
+        "enrolled": "133",
+        "grad_rate": "32.4%"
     },
     "491464": {
         "id": "491464",
@@ -161,11 +163,10 @@
         "type": "University",
         "slug": "abc-adult-school",
         "url": "https://datausa.io/profile/university/abc-adult-school",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
+        "county_id": "05000US06037",
+        "tuition": null,
+        "enrolled": "185",
+        "grad_rate": null
     },
     "493105": {
         "id": "493105",
@@ -173,10 +174,9 @@
         "type": "University",
         "slug": "abc-adult-school-cabrillo-lane",
         "url": "https://datausa.io/profile/university/abc-adult-school-cabrillo-lane",
-        "population": null,
-        "median_age": null,
-        "income": null,
-        "poverty_rate": null,
-        "property_value": null
+        "county_id": null,
+        "tuition": null,
+        "enrolled": null,
+        "grad_rate": null
     }
 }

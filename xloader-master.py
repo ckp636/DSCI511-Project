@@ -2,6 +2,7 @@ import json
 import re
 import time
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup
 
 BASE = "https://datausa.io"
@@ -35,6 +36,69 @@ FIELD_LABELS = {
         "2023 Median Property Value",
         "Median Property Value",
     ],
+    "tuition": [
+        "2023 Undergraduate Tution",
+    ],
+    "enrolled": [
+        "2023 Enrolled Students"
+    ],
+    "grad_rate": [
+        "2023 Graduation Rate"
+    ]
+}
+
+STATES = {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PA": "Pennsylvania",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming",
+    "PR": "Puerto Rico"
 }
 
 def construct_url(base: str, segments):
@@ -129,6 +193,7 @@ def extract_stats_from_profile(url: str, delay: float = 0.5):
         time.sleep(delay)
         return {}
 
+    geo_connection = extract_location_from_des(soup)
     stats = {}
     for field, labels in FIELD_LABELS.items():
         value = None
@@ -141,8 +206,28 @@ def extract_stats_from_profile(url: str, delay: float = 0.5):
                     break
         stats[field] = value
 
+    if geo_connection:
+        stats["county_id"] = geo_connection
+
     time.sleep(delay)
     return stats
+
+def extract_location_from_des(soup):
+    des_div = soup.find("div", {"class": "section-description"})
+    loc_div = des_div.find_all("a", href=True)
+    for href in loc_div:
+        href_splitted = href['href'].split("/")
+        if href_splitted[2] == 'geo':
+            geo_id = href_splitted[3].strip()
+            return geo_id
+        else:
+            continue
+    return None
+
+def get_state_from_slug(slug):
+    state_abbr = slug.split("-")[-1].strip()
+    state_name = STATES[state_abbr.upper()]
+    return state_name
 
 def build_dataset(limit_per_type=None):
     """Full pipeline: classifications -> index -> scrape stats -> dataset dict.
@@ -155,6 +240,10 @@ def build_dataset(limit_per_type=None):
 
     dataset = {}
     counts_by_type = {}
+
+    state_df = pd.DataFrame()
+    county_df = pd.DataFrame()
+    university_df = pd.DataFrame()
 
     for geo_id, info in index.items():
         t = info["type"]
@@ -171,31 +260,77 @@ def build_dataset(limit_per_type=None):
 
         counts_by_type[t] += 1
 
-        dataset[geo_id] = {
-            "id": geo_id,
-            "name": info["name"],
-            "type": info["type"],
-            "slug": info["slug"],
-            "url": info["url"],
-            "population": stats.get("population"),
-            "median_age": stats.get("median_age"),
-            "income": stats.get("income"),
-            "poverty_rate": stats.get("poverty_rate"),
-            "property_value": stats.get("property_value"),
-        }
+        match info["type"]:
+            case "State":
+                dataset[geo_id] = {
+                    "id": geo_id,
+                    "name": info["name"],
+                    "type": info["type"],
+                    "slug": info["slug"],
+                    "url": info["url"],
+                    "population": stats.get("population"),
+                    "median_age": stats.get("median_age"),
+                    "income": stats.get("income"),
+                    "poverty_rate": stats.get("poverty_rate"),
+                    "property_value": stats.get("property_value"),
+                }
+                state_df = pd.concat([state_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
+            case "County":
+                dataset[geo_id] = {
+                    "id": geo_id,
+                    "name": info["name"],
+                    "type": info["type"],
+                    "slug": info["slug"],
+                    "url": info["url"],
+                    "state_name": get_state_from_slug(info["slug"]),
+                    "population": stats.get("population"),
+                    "median_age": stats.get("median_age"),
+                    "income": stats.get("income"),
+                    "poverty_rate": stats.get("poverty_rate"),
+                    "property_value": stats.get("property_value"),
+                }
+                county_df = pd.concat([county_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
+            case "University":
+                dataset[geo_id] = {
+                    "id": geo_id,
+                    "name": info["name"],
+                    "type": info["type"],
+                    "slug": info["slug"],
+                    "url": info["url"],
+                    "county_id": stats.get("county_id"),
+                    "tuition": stats.get("tuition"),
+                    "enrolled": stats.get("enrolled"),
+                    "grad_rate": stats.get("grad_rate"),
+                }
+                university_df = pd.concat([university_df, pd.DataFrame([dataset[geo_id]])], ignore_index = True)
+            case _:
+                dataset[geo_id] = {
+                    "id": geo_id,
+                    "name": info["name"],
+                    "type": info["type"],
+                    "slug": info["slug"],
+                    "url": info["url"],
+                }
 
+    frame_list = [state_df, county_df, university_df]
     print("[INFO] Scraping complete. Counts by type:", counts_by_type)
-    return dataset
+    return dataset, frame_list
 
 def main():
     # For a small test run, set limit_per_type to a small number (e.g., 3).
     # For the full scrape, change to None (may take a long time).
-    dataset = build_dataset(limit_per_type=5)
+    dataset, frames = build_dataset(limit_per_type=5)
 
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(dataset, f, indent=4, ensure_ascii=False)
 
     print("[INFO] Saved data-master.json and data.json")
+
+    with pd.ExcelWriter("data.xlsx") as writer:
+        for i, df in enumerate(frames, start=1):
+            df.to_excel(writer, sheet_name=f"Sheet{i}", index = False)
+    
+    print("[INFO] Saved data.xlsx")
 
 if __name__ == "__main__":
     main()
